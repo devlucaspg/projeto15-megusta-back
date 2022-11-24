@@ -5,10 +5,8 @@ import { productBodyValidation } from "../middlewares/productBodyValidation.midd
 
 const router = Router();
 
-router.use(authValidation);
-
 router.get("/products", products);
 router.get("/products/:id", productId);
-router.post("/add-product", productBodyValidation, addProducts);
+router.post("/add-product", authValidation, productBodyValidation, addProducts);
 
 export default router;
