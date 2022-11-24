@@ -5,8 +5,6 @@ import { adressBodyValidation } from "../middlewares/adressBodyValidation.middle
 
 const router = Router();
 
-router.use(authValidation);
-
-router.post("/adress", adressBodyValidation, adress);
+router.post("/adress", authValidation, adressBodyValidation, adress);
 
 export default router;
