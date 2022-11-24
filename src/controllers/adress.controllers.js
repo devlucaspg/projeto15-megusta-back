@@ -2,11 +2,11 @@ import { adressCollection } from "../database/db.js";
 
 export async function adress(req, res) {
   const adress = req.body;
-  const userExists = res.locals.userSignIn;
+  const user = res.locals.user;
 
   try {
-    delete userExists.password;
-    await adressCollection.insertOne({ ...adress, userId: userExists._id });
+    delete user.password;
+    await adressCollection.insertOne({ ...adress, userId: user });
     res.sendStatus(201);
   } catch (err) {
     console.log(err);
