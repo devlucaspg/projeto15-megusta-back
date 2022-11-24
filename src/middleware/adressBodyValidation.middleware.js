@@ -11,11 +11,13 @@ export async function signUpBodyValidation(req, res, next) {
   }
 
   const adressExists = await adressCollection
-    .filter({ email: adress.userId })
+    .filter({ userId: adress.userId })
     .filter({ postalCode: adress.postalCode })
     .filter({ number: adress.number });
   if (adressExists) {
-    return res.status(409).send({ message: "Este endereço já está cadastrado" });
+    return res
+      .status(409)
+      .send({ message: "Este endereço já está cadastrado" });
   }
 
   next();
