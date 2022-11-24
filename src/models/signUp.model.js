@@ -6,17 +6,18 @@ export const signUpModel = joi.object({
     .string()
     .email({ minDomainSegments: 2, tlds: { allow: ["com", "net", "br"] } })
     .required(),
-  doc: joi
+  document: joi
     .string()
     .pattern(
       new RegExp(
         "^[0-9]{3}[.]?[0-9]{3}[.]?[0-9]{3}[-]?[0-9]{2}$|^[0-9]{2}[.]?[0-9]{3}[.]?[0-9]{3}[/]?[0-9]{4}[-]?[0-9]{2}$"
       )
-    ).required,
+    )
+    .required(),
   password: joi
     .string()
     .min(6)
     .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$"))
     .required(),
-  confirmPassword: joi.ref("password").required(),
+  confirmPassword: joi.ref("password"),
 });
