@@ -17,7 +17,11 @@ export async function products(req, res) {
 export async function productId(req, res) {
   const { id } = req.params;
   try {
-    const products = await productsCollection.find({ _id: ObjectId }).toArray();
+    const products = await productsCollection.findOne({ _id: new ObjectId(id) });
+        
+    if (products.length === 0) {
+      return res.status(404).send("Produto não encontrado");
+    }
     res.send(products);
   } catch (err) {
     console.log(err);
