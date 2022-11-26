@@ -5,7 +5,7 @@ export async function authValidation(req, res, next) {
   const token = authorization?.replace("Bearer ", "");
 
   if (!token) {
-    console.log("Passou pelo authValidation");
+
     return res.sendStatus(401);
   }
 
