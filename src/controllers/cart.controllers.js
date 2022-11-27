@@ -6,6 +6,7 @@ export async function cart(req, res) {
   try {
     const cart = await cartCollection
       .find({ userId: userId.toString() })
+      .sort({ name: 1 })
       .toArray();
     res.send(cart);
   } catch (err) {
@@ -19,26 +20,38 @@ export async function addToCart(req, res) {
   const userId = res.locals.user;
 
   try {
-    const product = await productsCollection.findOne({
-      _id: new ObjectId(productId),
-    });
-    console.log(product);
-    if (product?.length === 0) {
-      return res.status(404).send("Produto não encontrado");
+    const product = await cartCollection
+      .find({
+        userId: userId.toString(),
+      })
+      .filter({
+        productId: productId.toString(),
+      })
+      .toArray();
+
+    if (product.length === 0) {
+      await cartCollection.insertOne({
+        productId: productId.toString(),
+        userId: userId.toString(),
+        quantity: quantity,
+        price: product.price,
+        name: product.name,
+        imageLink: product.imageLink,
+        description: product.description,
+        category: product.category,
+        stock: product.stock,
+      });
+      return res.status(201).send("Produto adicionado ao carrinho!");
     }
-    
-    await cartCollection.insertOne({ 
-      productId: productId.toString(),
-      userId: userId.toString(),
-      quantity: quantity,
-      price: product.price,
-      name: product.name,
-      imageLink: product.imageLink,
-      description: product.description,
-      category: product.category,
-      stock: product.stock,
-     });
-    return res.status(201).send("Produto adicionado ao carrinho!");
+
+    if (product.length > 0) {
+      await cartCollection.updateOne(
+        { _id: new ObjectId(product[0]._id) },
+        { $set: { quantity: Number(product[0].quantity) + Number(quantity) } }
+      );
+      return res.status(201).send("Produto já no carrinho. Quantidade atualizada!");
+    }
+
   } catch (err) {
     console.log(err);
     res.sendStatus(500);
