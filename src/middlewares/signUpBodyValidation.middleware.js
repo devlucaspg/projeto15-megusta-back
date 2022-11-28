@@ -7,7 +7,9 @@ export async function signUpBodyValidation(req, res, next) {
 
   if (error) {
     const errors = error.details.map((detail) => detail.message);
-    return res.status(400).send(errors);
+    console.log("SignUpBodyValidation")
+    console.log(errors)
+    return res.status(401).send(errors);
   }
 
   const userExists = await usersCollection.findOne({ email: user.email });
