@@ -29,6 +29,20 @@ export async function productId(req, res) {
   }
 }
 
+export async function productSection(req, res) {
+  const {section} = req.params;
+  try{
+    const products = await productsCollection.find({category: section}).toArray();
+    if(products.length === 0){
+      return res.status(404).send("Produto não encontrado");
+    }
+    res.send(products);
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500);
+  }
+}
+
 export async function addProducts(req, res) {
   const product = req.body;
   const rootUser = res.locals.rootUser;
