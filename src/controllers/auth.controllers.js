@@ -35,6 +35,21 @@ export async function signIn(req, res) {
   }
 }
 
+export async function exit(req, res) {
+ 
+  const { authorization } = req.headers;
+    const token = authorization?.replace("Bearer ", "");
+    if (!token) return res.sendStatus(401)
+    try {
+        await sessionsCollection.deleteOne({ token })
+        res.sendStatus(201)
+    } catch (err) {
+        console.log(err)
+        res.sendStatus(500)
+    }
+}
+
+
 export async function rootSignUp(req, res) {
   const user = req.body;
 
