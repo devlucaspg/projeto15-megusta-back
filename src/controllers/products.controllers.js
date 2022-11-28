@@ -20,7 +20,7 @@ export async function productId(req, res) {
     const products = await productsCollection.findOne({ _id: new ObjectId(id) });
         
     if (products.length === 0) {
-      return res.status(404).send("Produto não encontrado");
+      return res.status(404).send("Produto não encontrado! - (3)");
     }
     res.send(products);
   } catch (err) {
@@ -31,10 +31,11 @@ export async function productId(req, res) {
 
 export async function productSection(req, res) {
   const {section} = req.params;
+  console.log(section)
   try{
     const products = await productsCollection.find({category: section}).toArray();
     if(products.length === 0){
-      return res.status(404).send("Produto não encontrado");
+      return res.status(404).send("Produto não encontrado! - (4)");
     }
     res.send(products);
   } catch (err) {
