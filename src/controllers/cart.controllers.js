@@ -74,10 +74,7 @@ export async function addToCart(req, res) {
 export async function removeFromCart(req, res) {
   const { productId } = req.body;
   const userId = res.locals.user;
-  console.log("productId")
-  console.log(productId)
-  console.log("userId")
-  console.log(userId)
+
   try {
     const cartProduct = await cartCollection
       .find({
@@ -87,8 +84,6 @@ export async function removeFromCart(req, res) {
         productId: productId.toString(),
       })
       .toArray();
-      console.log("cartProduct")
-      console.log(cartProduct)
 
     if (cartProduct?.length === 0) {
       return res.status(404).send("Produto não encontrado! - (2)");
