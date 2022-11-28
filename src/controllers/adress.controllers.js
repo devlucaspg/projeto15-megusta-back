@@ -16,11 +16,9 @@ export async function adress(req, res) {
 
 export async function getAdress(req, res) {
   const user = res.locals.user;
-  console.log(user.toString());
 
   try {
     const adress = await adressCollection.findOne({ userId: user.toString() });
-    console.log(adress)
     res.send(adress);
   } catch (err) {
     console.log(err);
