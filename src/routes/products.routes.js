@@ -8,7 +8,7 @@ const router = Router();
 
 router.get("/products", products);
 router.get("/products/:id", productId);
-router.get("/:section", productSection);
+router.get("/product/:section", productSection);
 router.get("/cart", authValidation, cart);
 router.post("/cart", authValidation, addToCart);
 router.post("/add-product", authValidation, productBodyValidation, addProducts);
