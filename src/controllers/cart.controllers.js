@@ -72,7 +72,7 @@ export async function addToCart(req, res) {
 }
 
 export async function removeFromCart(req, res) {
-  const { productId } = req.body;
+  const { productId } = req.params;
   const userId = res.locals.user;
 
   try {
@@ -90,7 +90,7 @@ export async function removeFromCart(req, res) {
     }
 
     if (cartProduct.length > 0) {
-      await cartCollection.deleteOne({ _id: new ObjectId(cartProduct[0]._id) });
+      await cartCollection.deleteOne({ _id: cartProduct[0]._id });
       return res.status(201).send("Produto removido do carrinho!");
     }
   } catch (err) {
